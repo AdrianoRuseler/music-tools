@@ -24,5 +24,8 @@ generateTrackInfoImage('5A', 140, 7, 'track_info5a.png');
 
 generateTrackInfoImage('11A', 140, 7, 'track_info11a.png');
 
-
+%% Not tested
 addCoverToMP3('my_track.mp3', 'track_info.png');
+
+info = extractMP3Metadata('my_track.mp3');
+disp(info);
