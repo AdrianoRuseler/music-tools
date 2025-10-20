@@ -42,7 +42,7 @@ moveAudioToTopLevelAndClean('A:\DJPOOL\crack-4-djs')
 moveAudioToTopLevelAndClean('A:\DJPOOL\All In One Partybreaks And Remixes\Sep 2020')
 
 
-moveAudioToTopLevelAndClean('A:\DJPOOL\All In One Partybreaks And Remixes\April 2021')
+moveAudioToTopLevelAndClean('A:\DJPOOL\bootlegs')
 
 
 %% DB 
@@ -51,7 +51,7 @@ moveAudioToTopLevelAndClean('A:\DJPOOL\All In One Partybreaks And Remixes\April 
 dbfile = 'C:\Users\ruseler\AppData\Local\Mixed In Key\Mixed In Key\11.0\MIKStore.db'; 
 
 % Create the SQLite connection object
-conn = sqlite(dbfile);
+conn = sqlite(dbfile,'readonly');
 
 % Example SQL query to select certain columns and filter rows
 sqlQuery = 'SELECT name FROM sqlite_master WHERE type=''table'';';
@@ -62,6 +62,12 @@ results = fetch(conn, sqlQuery);
 sqlQuery = ['SELECT ' ...
   'Id, File, ArtistName, SongName, Comment, Tempo, OverallVolume, OverallEnergy, EnergySegmentsCount, ' ...
   'StandardPitch, KeyResultSummary, ClippedPeaksCount, Genre, Album, Year, ' ...
+  'MainKey, MainKeyConfidence, SecondKey, SecondKeyConfidence, OverallVolumeRMS1, OverallVolumeRMS2, OverallVolumeLUFS, ' ...
+  'FileType, FileSize, Bitrate, SampleRate, Rating FROM Song'];
+
+sqlQuery = ['SELECT ' ...
+  'Id, File, ArtistName, SongName, Comment, Tempo, OverallVolume, OverallEnergy, EnergySegmentsCount, ' ...
+  'StandardPitch, KeyResultSummary, ClippedPeaksCount, Genre, Album, ' ...
   'MainKey, MainKeyConfidence, SecondKey, SecondKeyConfidence, OverallVolumeRMS1, OverallVolumeRMS2, OverallVolumeLUFS, ' ...
   'FileType, FileSize, Bitrate, SampleRate, Rating FROM Song'];
 
