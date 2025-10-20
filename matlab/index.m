@@ -40,3 +40,84 @@ moveAudioToTopLevelAndClean('A:\DJPOOL\crack-4-djs')
 
 
 moveAudioToTopLevelAndClean('A:\DJPOOL\All In One Partybreaks And Remixes\Sep 2020')
+
+
+moveAudioToTopLevelAndClean('A:\DJPOOL\All In One Partybreaks And Remixes\April 2021')
+
+
+%% DB 
+
+% Specify the full path and filename for your .db file
+dbfile = 'C:\Users\ruseler\AppData\Local\Mixed In Key\Mixed In Key\11.0\MIKStore.db'; 
+
+% Create the SQLite connection object
+conn = sqlite(dbfile);
+
+% Example SQL query to select certain columns and filter rows
+sqlQuery = 'SELECT name FROM sqlite_master WHERE type=''table'';';
+
+% Execute the query and fetch the results
+results = fetch(conn, sqlQuery);
+
+sqlQuery = ['SELECT ' ...
+  'Id, File, ArtistName, SongName, Comment, Tempo, OverallVolume, OverallEnergy, EnergySegmentsCount, ' ...
+  'StandardPitch, KeyResultSummary, ClippedPeaksCount, Genre, Album, Year, ' ...
+  'MainKey, MainKeyConfidence, SecondKey, SecondKeyConfidence, OverallVolumeRMS1, OverallVolumeRMS2, OverallVolumeLUFS, ' ...
+  'FileType, FileSize, Bitrate, SampleRate, Rating FROM Song'];
+
+% 3. Execute the fixed query
+data = fetch(conn, sqlQuery);
+
+% Close the SQLite connection
+close(conn);
+
+
+% 
+% CREATE TABLE [Song] (
+%   [Id] TEXT PRIMARY KEY NOT NULL,
+%   [File] TEXT NULL,
+%   [FilePathHash] TEXT NULL,
+%   [ArtistName] TEXT NULL,
+%   [SongName] TEXT NULL,
+%   [Comment] TEXT NULL,
+%   [Tempo] REAL NULL,
+%   [OverallVolume] REAL NULL,
+%   [OverallEnergy] INTEGER NULL,
+%   [EnergySegmentsCount] INTEGER NULL,
+%   [StandardPitch] REAL NULL,
+%   [KeyResultSummary] TEXT NULL,
+%   [DateAdded] TEXT NULL,
+%   [ClippedPeaksCount] INTEGER NULL,
+%   [Artwork] BLOB NULL,
+%   [LastAnalyzedUtc] TEXT NULL,
+%   [Genre] TEXT NULL,
+%   [Album] TEXT NULL,
+%   [Grouping] TEXT NULL,
+%   [Year] INTEGER NULL,
+%   [MainKey] TEXT NULL,
+%   [MainKeyConfidence] REAL NULL,
+%   [SecondKey] TEXT NULL,
+%   [SecondKeyConfidence] REAL NULL,
+%   [IsAnalyzed] INTEGER NULL,
+%   [HasPNTag] INTEGER NULL,
+%   [PNTagIsProcessed] INTEGER NULL,
+%   [PNTagAppliedClipRepair] INTEGER NULL,
+%   [PNTagVolumeAnalysisVersion] INTEGER NULL,
+%   [PNTagVolumeUnits] TEXT NULL,
+%   [PNTagOutputVolume] REAL NULL,
+%   [LastModifiedUtc] TEXT NULL,
+%   [OverallVolumeRMS1] REAL NULL,
+%   [OverallVolumeRMS2] REAL NULL,
+%   [OverallVolumeLUFS] REAL NULL,
+%   [DiskIsRemovable] INTEGER NULL,
+%   [DiskLabel] TEXT NULL,
+%   [DiskSerialNumber] TEXT NULL,
+%   [Label] TEXT NULL,
+%   [Remixer] TEXT NULL,
+%   [Composer] TEXT NULL,
+%   [FileType] TEXT NULL,
+%   [FileSize] BIGINT NULL,
+%   [Bitrate] INTEGER NULL,
+%   [SampleRate] INTEGER NULL,
+%   [Rating] INTEGER NULL
+% ) WITHOUT ROWID
