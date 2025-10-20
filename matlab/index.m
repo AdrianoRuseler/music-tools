@@ -29,3 +29,8 @@ addCoverToMP3('my_track.mp3', 'track_info.png');
 
 info = extractMP3Metadata('my_track.mp3');
 disp(info);
+
+%% Move files
+moveAllMP3s('C:\Users\YourName\Music', 'C:\Users\YourName\MP3Archive');
+
+moveAudioToTopLevelAndClean('A:\DJPOOL\crack-4-djs')
