@@ -1,4 +1,4 @@
-function metadata = extractMP3Metadata(mp3File)
+function [metadata,jsonData] = extractMP3Metadata(mp3File)
 % extractMP3Metadata extracts metadata from an MP3 file using ffprobe
 %
 % Input:
@@ -7,35 +7,39 @@ function metadata = extractMP3Metadata(mp3File)
 % Output:
 %   metadata - struct with fields: title, artist, album, genre, duration
 
-    if ~isfile(mp3File)
-        error('MP3 file not found: %s', mp3File);
-    end
+if ~isfile(mp3File)
+    error('MP3 file not found: %s', mp3File);
+end
 
-    % Build ffprobe command to extract metadata in JSON format
-    cmd = sprintf('ffprobe -v quiet -print_format json -show_format "%s"', mp3File);
-    [status, result] = system(cmd);
+% Build ffprobe command to extract metadata in JSON format
+cmd = sprintf('ffprobe -v quiet -print_format json -show_format "%s"', mp3File);
+[status, result] = system(cmd);
 
-    if status ~= 0
-        error('ffprobe failed to extract metadata. Ensure ffprobe is installed and in your system path.');
-    end
+if status ~= 0
+    error('ffprobe failed to extract metadata. Ensure ffprobe is installed and in your system path.');
+end
 
-    % Parse JSON result
-    jsonData = jsondecode(result);
-    formatTags = jsonData.format.tags;
+% Parse JSON result
+jsonData = jsondecode(result);
+formatTags = jsonData.format.tags;
 
-    % Extract fields safely
-    metadata.title   = getFieldSafe(formatTags, 'title');
-    metadata.artist  = getFieldSafe(formatTags, 'artist');
-    metadata.album   = getFieldSafe(formatTags, 'album');
-    metadata.genre   = getFieldSafe(formatTags, 'genre');
-    metadata.duration = str2double(jsonData.format.duration);
+% Extract fields safely
+metadata.title   = getFieldSafe(formatTags, 'title');
+metadata.artist  = getFieldSafe(formatTags, 'artist');
+% metadata.album   = getFieldSafe(formatTags, 'album');
+% metadata.genre   = getFieldSafe(formatTags, 'genre');
+metadata.tbpm   = str2double(getFieldSafe(formatTags, 'TBPM'));
+metadata.tkey   = getFieldSafe(formatTags, 'TKEY');
+metadata.energylevel  = str2double(getFieldSafe(formatTags, 'EnergyLevel'));
+metadata.comment  = getFieldSafe(formatTags, 'comment');
+metadata.duration = str2double(jsonData.format.duration);
 end
 
 function value = getFieldSafe(structure, fieldName)
 % Helper to safely extract field from struct
-    if isfield(structure, fieldName)
-        value = structure.(fieldName);
-    else
-        value = '';
-    end
+if isfield(structure, fieldName)
+    value = structure.(fieldName);
+else
+    value = '';
+end
 end
