@@ -27,10 +27,16 @@ generateTrackInfoImage('11A', 140, 7, 'track_info11a.png');
 %% Not tested
 addCoverToMP3('my_track.mp3', 'track_info.png');
 
-info = extractMP3Metadata('my_track.mp3');
+[info,jsonData] = extractMP3Metadata('A:\DJPOOL\All In One Partybreaks And Remixes\Sep 2020\$Uicideboy$ - Fuck Your Culture (Dj Friendly Short Edit) (Dirty).mp3');
 disp(info);
 
+generateTrackInfoImage(info.tkey, info.tbpm, info.energylevel, 'track_info_test.png');
+
+addCoverToMP3('A:\DJPOOL\All In One Partybreaks And Remixes\Sep 2020\$Uicideboy$ - Fuck Your Culture (Dj Friendly Short Edit) (Dirty).mp3', 'track_info_test.png');
 %% Move files
 moveAllMP3s('C:\Users\YourName\Music', 'C:\Users\YourName\MP3Archive');
 
 moveAudioToTopLevelAndClean('A:\DJPOOL\crack-4-djs')
+
+
+moveAudioToTopLevelAndClean('A:\DJPOOL\All In One Partybreaks And Remixes\Sep 2020')
