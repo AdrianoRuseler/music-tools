@@ -328,21 +328,50 @@ function data = postProcessData(data, columns)
                     % Convert datetime columns
                     if ismember(colName, {'DateAdded', 'LastAnalyzedUtc', ...
                             'LastModifiedUtc'})
-                        if iscell(data.(colName))
-                            dates = NaT(size(data.(colName)));
-                            for j = 1:length(data.(colName))
-                                if ~isempty(data.(colName){j}) && ischar(data.(colName){j})
+                        % Get the column data
+                        colData = data.(colName);
+                        
+                        % Convert to cell array if it's a string array
+                        if isstring(colData)
+                            colData = cellstr(colData);
+                        end
+                        
+                        % Now process as cell array
+                        dates = NaT(size(colData, 1), 1);
+                        for j = 1:length(colData)
+                            if iscell(colData)
+                                dateStr = colData{j};
+                            else
+                                dateStr = colData(j);
+                            end
+                            
+                            % Check if not empty
+                            if ~isempty(dateStr) && strlength(string(dateStr)) > 0
+                                try
+                                    % Try space separator format (most common)
+                                    dates(j) = datetime(dateStr, ...
+                                        'InputFormat', 'yyyy-MM-dd HH:mm:ss', ...
+                                        'TimeZone', 'UTC');
+                                catch ME1
                                     try
-                                        dates(j) = datetime(data.(colName){j}, ...
-                                            'InputFormat', 'yyyy-MM-dd HH:mm:ss', ...
+                                        % Try ISO format with T separator
+                                        dates(j) = datetime(dateStr, ...
+                                            'InputFormat', 'yyyy-MM-dd''T''HH:mm:ss', ...
                                             'TimeZone', 'UTC');
-                                    catch
-                                        % Leave as NaT if conversion fails
+                                    catch ME2
+                                        try
+                                            % Let MATLAB guess the format
+                                            dates(j) = datetime(dateStr, 'TimeZone', 'UTC');
+                                        catch ME3
+                                            % Leave as NaT if all conversions fail
+                                            % Uncomment for debugging:
+                                            % fprintf('Failed to convert date: "%s"\n', dateStr);
+                                        end
                                     end
                                 end
                             end
-                            data.(colName) = dates;
                         end
+                        data.(colName) = dates;
                     end
                     
                 case 'BLOB'
