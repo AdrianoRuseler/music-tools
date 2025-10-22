@@ -3,7 +3,9 @@
 % https://claude.ai/chat/adc9a1ab-6f16-497c-93a4-ab9c4cc91599
 
 % Specify the full path and filename for your .db file
-dbfile = 'C:\Users\ruseler\AppData\Local\Mixed In Key\Mixed In Key\11.0\MIKStore - Copia.db'; 
+dbfile = 'C:\Users\ruseler\AppData\Local\Mixed In Key\Mixed In Key\11.0\MIKStore.db'; 
+
+songs2 = readSongTable(dbfile);
 
 songs = readSongDatabase(dbfile);
 % songs = readSongDatabase(dbfile);
@@ -20,6 +22,9 @@ fastSongs = readSongDatabase(dbfile, ...
 basicInfo = readSongDatabase(dbfile, ...
     'Columns', {'ArtistName', 'SongName', 'Album', 'Tempo'});
 
+% LastAnalyzedUtc NaT
+TimeInfo = readSongDatabase(dbfile,'Columns', {'LastAnalyzedUtc', 'LastModifiedUtc', 'DateAdded'});
+
 % Get top 50 songs ordered by date
 recent = readSongDatabase(dbfile, ...
     'OrderBy', 'DateAdded DESC', ...
@@ -32,8 +37,20 @@ myFavorites = readSongDatabase(dbfile, ...
     'Limit', 100);
 
 
+% conn = sqlite(dbfile, 'readonly');
+% result = fetch(conn, 'SELECT IFNULL(ArtistName, '''') AS ArtistName, IFNULL(SongName, '''') AS SongName FROM Song LIMIT 5');
+% close(conn);
+% class(result)
+% size(result)
+
+
 conn = sqlite(dbfile, 'readonly');
-result = fetch(conn, 'SELECT IFNULL(ArtistName, '''') AS ArtistName, IFNULL(SongName, '''') AS SongName FROM Song LIMIT 5');
+result = fetch(conn, 'SELECT DateAdded FROM Song WHERE DateAdded IS NOT NULL LIMIT 5');
+result
 close(conn);
-class(result)
-size(result)
+
+
+dates = readSongDatabase(dbfile, 'Columns', {'LastAnalyzedUtc', 'LastModifiedUtc', 'DateAdded'});
+dates(1:5,:)
+
+dates = readSongDatabase(dbfile, 'Columns', {'DateAdded'});
