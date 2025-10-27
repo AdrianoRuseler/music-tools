@@ -7,30 +7,23 @@ dbfile = 'C:\Users\ruseler\AppData\Local\Mixed In Key\Mixed In Key\11.0\MIKStore
 
 % Get specific columns only
 basicInfo = readSongTable(dbfile, ...
-    'Columns', {'File','Tempo', 'OverallEnergy', 'MainKey', 'MainKeyConfidence', 'OverallVolumeRMS1', 'OverallVolumeRMS2', 'OverallVolumeLUFS','Rating'});
+    'Columns', {'Tempo', 'OverallEnergy', 'MainKey', 'MainKeyConfidence', 'OverallVolumeRMS1', 'OverallVolumeRMS2', 'OverallVolumeLUFS','Rating'});
 disp(basicInfo(1, :));
 
 % (keyStr, tempoVal, energyVal, MainKeyConfidence, OverallVolume, numStars)
 for i = 1:2 % height(basicInfo)
     keyStr  = basicInfo.MainKey(i);
     tempoVal = basicInfo.Tempo(i);
-    energyVal = basicInfo.OverallEnergy(i); 
-    MainKeyConfidence = basicInfo.MainKeyConfidence(i); 
     OverallVolume.RMS1 = basicInfo.OverallVolumeRMS1(i);
     OverallVolume.RMS2 = basicInfo.OverallVolumeRMS2(i);
     OverallVolume.LUFS = basicInfo.OverallVolumeLUFS(i);
     numStars = 2*basicInfo.Rating(i);
-    ArtWorkFile{i} = TrackInfoImage(keyStr, tempoVal ,energyVal,MainKeyConfidence, OverallVolume, numStars);
+    ArtWorkFile{i} = TrackInfoImage(keyStr, tempoVal , 5, 0.4721, OverallVolume, numStars);
 end
-
-
-addCoverToMP3(basicInfo.File(i), ArtWorkFile{i})
-
-
 % OverallVolume.RMS1 = -12.5
 % OverallVolume.RMS2 = -11.23
 % OverallVolume.LUFS = -9
-% ArtWorkFile=TrackInfoImage('1A', 132.87, 5,0.4721,OverallVolume,7);
+ArtWorkFile=TrackInfoImage('1A', 132.87, 5,0.4721,OverallVolume,7);
 
 
 
@@ -48,6 +41,13 @@ disp(songs2(1, :));
 % Filter by tempo and year
 fastSongs = readSongTable(dbfile, ...
     'WhereClause', 'Tempo > 120 AND Year >= 2020');
+
+
+
+
+
+
+
 
 % LastAnalyzedUtc NaT
 TimeInfo = readSongTable(dbfile,'Columns', {'LastAnalyzedUtc', 'LastModifiedUtc', 'DateAdded'});
