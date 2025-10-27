@@ -1,0 +1,38 @@
+function drawString = generateStarDrawCommands(numStars, xSpacing, yOffset)
+% Returns ImageMagick -draw commands for stars with vertical offset
+% Inputs:
+%   numStars  - number of stars to draw (e.g., 5)
+%   xSpacing  - horizontal spacing between stars (e.g., 60)
+%   yOffset   - vertical offset to shift all Y coordinates (e.g., 5)
+% Output:
+%   drawString - concatenated string of -draw commands
+
+% Base star shape (relative to origin)
+baseX = [15 18 27 20 23 15 7 10 3 12];
+baseY = [0 8 8 13 22 17 22 13 8 8];
+
+if numStars ~= 0
+    drawString = "-fill gold -stroke none ";
+else
+    drawString = "-fill none -stroke gold -strokewidth 2 ";
+end
+
+for i = 0:9
+    xShift = i * xSpacing;
+    coords = "";
+    for j = 1:length(baseX)
+        x = baseX(j) + xShift;
+        y = baseY(j) + yOffset;
+        coords = coords + sprintf('%d,%d ', x, y);
+    end
+    coords = strtrim(coords);  % Remove trailing space
+    if i==(numStars-1) && numStars ~= 5
+        drawString = drawString + sprintf('-draw "polygon %s" -fill none -stroke gold -strokewidth 2 ', coords);
+    else
+        drawString = drawString + sprintf('-draw "polygon %s" ', coords);
+    end
+end
+
+drawString = char(drawString);
+% -fill gold -stroke none
+% -fill none -stroke gold -strokewidth 2 ^

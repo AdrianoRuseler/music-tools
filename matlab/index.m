@@ -22,7 +22,8 @@ generateTrackInfoImage('5A', 140, 7, 'track_info5a.png');
 % This will create a PNG image named 'track_info.png' displaying the key '5A',
 
 
-generateTrackInfoImage('11A', 140, 7, 'track_info11a.png');
+generateTrackInfoImage('11A', 140, 7, 'track_info11aX.png');
+generateTrackInfoImage('11A', 140, 7, 'track_info11a.jpg');
 
 %% Not tested
 addCoverToMP3('my_track.mp3', 'track_info.png');
@@ -42,7 +43,7 @@ moveAudioToTopLevelAndClean('A:\DJPOOL\crack-4-djs')
 moveAudioToTopLevelAndClean('A:\DJPOOL\All In One Partybreaks And Remixes\Sep 2020')
 
 
-moveAudioToTopLevelAndClean('A:\DJPOOL\bootlegs')
+moveAudioToTopLevelAndClean('E:\TMP\Techno, Tech & Deep House Pack\Tech House')
 
 
 %% DB 
@@ -76,6 +77,11 @@ data = fetch(conn, sqlQuery);
 
 % Close the SQLite connection
 close(conn);
+
+
+
+% TrackInfoImage('1A', 132, 5,0.84721,OverallVolume)
+% TrackInfoImage('1A', 132, 5,0.4721,OverallVolume,7)
 
 
 % 

@@ -7,31 +7,35 @@ dbfile = 'C:\Users\ruseler\AppData\Local\Mixed In Key\Mixed In Key\11.0\MIKStore
 
 songs2 = readSongTable(dbfile);
 
-songs = readSongDatabase(dbfile);
+songs = readSongTable(dbfile);
 % songs = readSongDatabase(dbfile);
 % Error using readSongDatabase (line 99)
 % Error reading database: Input #2 expected to be a cell array, was int64 instead.
 % Check the data
-disp(songs(1:5, {'ArtistName', 'SongName', 'Tempo', 'Year'}));
+disp(songs2(1, {'ArtistName', 'SongName', 'Tempo', 'Year'}));
 
+disp(songs2(1, :));
 % Filter by tempo and year
-fastSongs = readSongDatabase(dbfile, ...
+fastSongs = readSongTable(dbfile, ...
     'WhereClause', 'Tempo > 120 AND Year >= 2020');
 
 % Get specific columns only
-basicInfo = readSongDatabase(dbfile, ...
-    'Columns', {'ArtistName', 'SongName', 'Album', 'Tempo'});
+basicInfo = readSongTable(dbfile, ...
+    'Columns', {'Tempo', 'OverallEnergy', 'MainKey', 'MainKeyConfidence', 'OverallVolumeRMS1', 'OverallVolumeRMS2', 'OverallVolumeLUFS'});
+disp(basicInfo(1, :));
+
+
 
 % LastAnalyzedUtc NaT
-TimeInfo = readSongDatabase(dbfile,'Columns', {'LastAnalyzedUtc', 'LastModifiedUtc', 'DateAdded'});
+TimeInfo = readSongTable(dbfile,'Columns', {'LastAnalyzedUtc', 'LastModifiedUtc', 'DateAdded'});
 
 % Get top 50 songs ordered by date
-recent = readSongDatabase(dbfile, ...
+recent = readSongTable(dbfile, ...
     'OrderBy', 'DateAdded DESC', ...
     'Limit', 50);
 
 % Complex query
-myFavorites = readSongDatabase(dbfile, ...
+myFavorites = readSongTable(dbfile, ...
     'WhereClause', 'Rating >= 4 AND Genre = "Rock"', ...
     'OrderBy', 'ArtistName, Album, SongName', ...
     'Limit', 100);
@@ -50,7 +54,7 @@ result
 close(conn);
 
 
-dates = readSongDatabase(dbfile, 'Columns', {'LastAnalyzedUtc', 'LastModifiedUtc', 'DateAdded'});
+dates = readSongTable(dbfile, 'Columns', {'LastAnalyzedUtc', 'LastModifiedUtc', 'DateAdded'});
 dates(1:5,:)
 
-dates = readSongDatabase(dbfile, 'Columns', {'DateAdded'});
+dates = readSongTable(dbfile, 'Columns', {'DateAdded'});

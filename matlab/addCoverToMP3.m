@@ -21,6 +21,7 @@ function addCoverToMP3(mp3File, coverImage)
     outputFile = fullfile(folder, [name '_with_cover' ext]);
 
     % Build FFmpeg command
+    % ffmpeg -i audio.mp3 -i cover.jpg -map 0:a -map 1:v -c copy -id3v2_version 3 output.mp3
     cmd = sprintf('ffmpeg -y -i "%s" -i "%s" -map 0 -map 1 -c copy -id3v2_version 3 -metadata:s:v title="Album cover" -metadata:s:v comment="Cover (front)" "%s"', ...
                   mp3File, coverImage, outputFile);
 
