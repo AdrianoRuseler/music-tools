@@ -26,11 +26,11 @@ function moveAudioToTopLevelAndClean(sourceDir)
         end
 
         % Avoid overwriting existing files
-        if exist(destFile, 'file')
-            [~, name, ext] = fileparts(files(k).name);
-            timestamp = datestr(now, 'yyyymmdd_HHMMSSFFF');
-            destFile = fullfile(sourceDir, sprintf('%s_%s%s', name, timestamp, ext));
-        end
+        % if exist(destFile, 'file')
+        %     [~, name, ext] = fileparts(files(k).name);
+        %     timestamp = datestr(now, 'yyyymmdd_HHMMSSFFF');
+        %     destFile = fullfile(sourceDir, sprintf('%s_%s%s', name, timestamp, ext));
+        % end
 
         movefile(srcFile, destFile);
         fprintf('Moved: %s -> %s\n', srcFile, destFile);
