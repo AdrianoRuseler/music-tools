@@ -33,8 +33,12 @@ moveAudioToTopLevelAndClean('A:\DJPOOL\crack-4-djs')
 
 moveAudioToTopLevelAndClean('A:\DJPOOL\All In One Partybreaks And Remixes\Sep 2020')
 
+moveAudioToTopLevelAndClean('A:\DJPOOL\Beatport\Deep House')
 
-moveAudioToTopLevelAndClean('E:\TMP\Techno, Tech & Deep House Pack\Tech House')
+moveAudioToTopLevelAndClean('A:\DJPOOL\TheMashUp')
+
+findDuplicateFiles('A:\DJPOOL\TheMashUp')
+
 
 
 %% DB 
