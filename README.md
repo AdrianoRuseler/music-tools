@@ -10,6 +10,10 @@
 7z x *.zip
 ```
 
+```cmd
+for %f in (*.zip) do tar --strip-components=1 -xf "%f"
+```
+
 ## Moves all .mp3 and .m4a files from subdirectories to the top level of sourceDir
 
 ```matlab
